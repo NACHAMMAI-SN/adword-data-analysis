@@ -1,9 +1,5 @@
 # Adword-Data-Analysis
 
-[![Python Version](https://img.shields.io/badge/Python-3.9-blue)](https://www.python.org/)
-[![MySQL](https://img.shields.io/badge/Database-MySQL-informational)](https://www.mysql.com/)
-[![Power BI](https://img.shields.io/badge/Visualization-Power_BI-yellow)](https://www.microsoft.com/en-us/power-platform/products/power-bi)
-[![License](https://img.shields.io/badge/License-MIT-blue)](https://github.com/AdityakumarDA/Adword-Data-Analysis/tree/main?tab=MIT-1-ov-file)
 
 A complete, real-world AdWords Data Analysis pipeline from raw Excel to fully interactive dashboards using **Excel**, **Python (pandas)**, **MySQL**, and **Power BI**.
 
@@ -11,32 +7,31 @@ This project mimics an enterprise-level ETL (Extract, Transform, Load) and BI (B
 
 ---
 
-## 📘 Table of Contents
+##  Table of Contents
 
-- [🎯 Project Objective](#-project-objective)
-- [📌 Business Objective](#-business-objective)
-- [📊 Tools & Technologies](#-tools--technologies)
-- [🔁 End-to-End Workflow](#-end-to-end-workflow)
-- [🧹 Excel + Python Processing](#-excel--python-processing)
-- [🗂 Lookup & Fact Tables Description](#-lookup--fact-tables-description)
-- [🗃 SQL Schema & Relationships](#-sql-schema--relationships)
-- [🧠 Relationship Diagram (EER)](#-relationship-diagram-eer)
-- [📈 Power BI Dashboard](#-power-bi-dashboard)
-- [🧩 Power BI Data Model View](#-power-bi-data-model-view)
-- [⚙ How to Use This Project](#-how-to-use-this-project)
-- [📂 Repository Structure](#-repository-structure)
-- [📝 License](#-license)
-- [📬 About Me](#-about-me)
+- [ Project Objective](#-project-objective)
+- [ Business Objective](#-business-objective)
+- [ Tools & Technologies](#-tools--technologies)
+- [ End-to-End Workflow](#-end-to-end-workflow)
+- [ Excel + Python Processing](#-excel--python-processing)
+- [ Lookup & Fact Tables Description](#-lookup--fact-tables-description)
+- [ SQL Schema & Relationships](#-sql-schema--relationships)
+- [ Relationship Diagram (EER)](#-relationship-diagram-eer)
+- [ Power BI Dashboard](#-power-bi-dashboard)
+- [ Power BI Data Model View](#-power-bi-data-model-view)
+- [ How to Use This Project](#-how-to-use-this-project)
+- [ Repository Structure](#-repository-structure)
+
 
 ---
 
-## 🎯 Project Objective
+##  Project Objective
 
 This project analyzes Google AdWords traffic data with the goal of uncovering performance trends, keyword effectiveness, and cost dynamics. It simulates a **real-life advertising analytics pipeline**, commonly used in marketing and digital performance teams.
 
 ---
 
-## 📌 Business Objective
+##  Business Objective
 
 To help marketing teams and decision-makers:
 - Monitor campaign performance
@@ -46,7 +41,7 @@ To help marketing teams and decision-makers:
 
 ---
 
-## 📊 Tools & Technologies
+##  Tools & Technologies
 
 | Tool        | Purpose                                             |
 |-------------|-----------------------------------------------------|
@@ -57,7 +52,7 @@ To help marketing teams and decision-makers:
 
 ---
 
-## 🔁 End-to-End Workflow
+##  End-to-End Workflow
 
 ```mermaid
 graph LR
@@ -71,15 +66,15 @@ Each stage builds on the last. The result is a smooth, production-style pipeline
 
 ---
 
-## 🧹 Excel + Python Processing
+##  Excel + Python Processing
 
-### ✅ Step 1: Raw Data (Raw_data.xlsx)
+###  Step 1: Raw Data (Raw_data.xlsx)
 - Contains columns like `title`, `keyword`, `positions`, `traffic`, `CPC`, etc.
 - This is the simulated export from Google AdWords.
 
 ![Raw Excel Data](Images/raw_excel_sample.png)
 
-### ✅ Step 2: Assigning Keyword IDs with Python
+### Step 2: Assigning Keyword IDs with Python
 Using `pandas`, we:
 - Loaded Excel using `pd.read_excel()`.
 - Created unique `keyword_ID` values by mapping each keyword to a number.
@@ -88,7 +83,7 @@ Using `pandas`, we:
   df['keyword_ID'] = df['keyword'].astype('category').cat.codes
   ```
 
-### ✅ Step 3: Splitting Clean Tables
+###  Step 3: Splitting Clean Tables
 Created three new CSVs:
 - `keyword.csv`: Unique list of keywords + IDs.
 - `search_volume.csv`: Total volume using `SUMIF`.
@@ -105,14 +100,14 @@ These were calculated using **Excel formulas**:
 | `IF(B2>=50,"Hard","Moderate")` | Assign difficulty label |
 | `VLOOKUP()` | Lookup keyword metadata |
 
-✅ These tables act as lookup/reference tables for SQL.
+These tables act as lookup/reference tables for SQL.
 
 
 ---
 
-## 🗂 Lookup & Fact Tables Description
+##  Lookup & Fact Tables Description
 
-#### 🔹 `keyword.csv`
+####  `keyword.csv`
 This table contains a deduplicated list of all unique keywords with their assigned `keyword_ID`.
 
 | Column Name  | Description                                                  |
@@ -120,7 +115,7 @@ This table contains a deduplicated list of all unique keywords with their assign
 | `keyword_ID` | Unique identifier for each keyword (used as primary key)     |
 | `keyword`    | Actual keyword text, fetched from raw data using `VLOOKUP`   |
 
-✅ Created using Excel's `VLOOKUP` function to map keywords with their IDs.
+ Created using Excel's `VLOOKUP` function to map keywords with their IDs.
 
 
 ![Excel Lookup Tables](Images/excel_lookup_table_1.png)
@@ -128,7 +123,7 @@ This table contains a deduplicated list of all unique keywords with their assign
 
 ---
 
-#### 🔹 `search_volume.csv`
+####  `search_volume.csv`
 This table includes the total monthly search volume per keyword.
 
 | Column Name      | Description                                                        |
@@ -136,7 +131,7 @@ This table includes the total monthly search volume per keyword.
 | `keyword_ID`     | Foreign key that links to the `keyword.csv` table                  |
 | `search_volume`  | Monthly search volume, aggregated using Excel’s `SUMIF` function   |
 
-✅ Created using `SUMIF` to calculate the total search volume for each keyword ID.
+ Created using `SUMIF` to calculate the total search volume for each keyword ID.
 
 
 ![Excel Lookup Tables](Images/excel_lookup_table_3.png)
@@ -144,7 +139,7 @@ This table includes the total monthly search volume per keyword.
 
 ---
 
-#### 🔹 `keyword_difficulty.csv`
+####  `keyword_difficulty.csv`
 This table stores the average keyword difficulty score along with a difficulty level label.
 
 | Column Name         | Description                                                                      |
@@ -153,7 +148,7 @@ This table stores the average keyword difficulty score along with a difficulty l
 | `avg_difficulty`     | Average difficulty score, calculated using `AVERAGEIF`                           |
 | `difficulty_level`   | Text label derived using Excel's `IF` function (e.g., `"Hard"` if ≥ 50)          |
 
-✅ Created using:
+ Created using:
 - `AVERAGEIF` to compute average difficulty per `keyword_ID`
 - `IF` to categorize as `"Hard"` or `"Moderate"`
 
@@ -162,7 +157,7 @@ This table stores the average keyword difficulty score along with a difficulty l
 
 ---
 
-#### 🔸 `website_traffic_data.csv` (Main Fact Table)
+####  `website_traffic_data.csv` (Main Fact Table)
 This table holds all enriched AdWords metrics after processing.
 
 | Column Name             | Description                                               |
@@ -183,7 +178,7 @@ This table holds all enriched AdWords metrics after processing.
 | `Number_of_Results`     | Total search engine results for the keyword                |
 | `Keyword_difficulty`    | Foreign key from `keyword_difficulty.csv`                  |
 
-✅ This is the central **fact table**, joined with all three lookup tables to support relational queries and visualizations.
+ This is the central **fact table**, joined with all three lookup tables to support relational queries and visualizations.
 
 
 ![Excel Lookup Tables](Images/main_table.png)
@@ -191,7 +186,7 @@ This table holds all enriched AdWords metrics after processing.
 
 ---
 
-## 🗃 SQL Schema & Relationships
+##  SQL Schema & Relationships
 
 Created a MySQL database:  
 ```sql
@@ -199,7 +194,7 @@ CREATE DATABASE IF NOT EXISTS Traffic_project;
 USE Traffic_project;
 ```
 
-### 🔧 Main Table: `website_traffic_data`
+###  Main Table: `website_traffic_data`
 This is the fact table containing AdWords metrics.
 
 ```sql
@@ -223,12 +218,12 @@ CREATE TABLE website_traffic_data (
 ```
 
 
-### 📘 Schema Screenshot
+###  Schema Screenshot
 
 ![Schema Screenshot](Images/mysql_schema_editor.png)
 
 
-### 🔑 Keys & Normalization
+###  Keys & Normalization
 
 Imported the other CSVs into MySQL:
 - `keyword`
@@ -245,7 +240,7 @@ These keys ensure consistent data joins between tables.
 
 ---
 
-## 🧠 Relationship Diagram (EER)
+##  Relationship Diagram (EER)
 
 ![EER Diagram](Images/EER_Diagram.png)
 
@@ -256,11 +251,11 @@ These diagrams visualize the 1-to-many relationships between:
 
 ---
 
-## 📈 Power BI Dashboard
+##  Power BI Dashboard
 
 Connected Power BI to MySQL database and created an interactive dashboard.
 
-### 📌 Visual Elements
+###  Visual Elements
 - **Cards**: Total Traffic, Search Volume, Cost, Results
 - **Line Chart**: Traffic over time
 - **Bar Chart**: Traffic by Keyword
@@ -270,7 +265,7 @@ Connected Power BI to MySQL database and created an interactive dashboard.
 
 ![Power BI Dashboard](Images/power_bi_dashboard.png)
 
-### 🔢 DAX Measures
+###  DAX Measures
 ```DAX
 Average CPC = AVERAGE(website_traffic_data[CPC])
 Last Date = MAX('website_traffic_data'[last_seen])
@@ -292,7 +287,7 @@ These enable filtering, aggregation, and time-based visualizations.
 
 ---
 
-## 🧩 Power BI Data Model View
+##  Power BI Data Model View
 
 To enable seamless slicing and aggregation, a clean star schema was created in Power BI.
 
@@ -303,74 +298,61 @@ To enable seamless slicing and aggregation, a clean star schema was created in P
   - `keyword_difficulty`
   - `search_volume`
 
-✅ This model ensures accurate filtering and joins.
+ This model ensures accurate filtering and joins.
 
 ![Power BI Data Model](Images/powerbi_data_model.png)
 
 
 ---
 
-## ⚙ How to Use This Project
+##  How to Use This Project
 
-### 🔹 1. Clone the Repo
+###  1. Clone the Repo
 ```bash
-git clone https://github.com/AdityakumarDA/Adword-Data-Analysis.git
+git clone https://github.com/NACHAMMAI-SN/adword-data-analysis.git
 ```
 
-### 🔹 2. Open Excel Files
+###  2. Open Excel Files
 - View and understand `Raw_data.xlsx`, CSVs
 - Optionally edit and export again using Excel formulas
 
-### 🔹 3. Set Up MySQL
+###  3. Set Up MySQL
 - Import all `.csv` using MySQL Workbench
 - Use provided SQL schema to create and relate tables
 
-### 🔹 4. Open Power BI Dashboard
+###  4. Open Power BI Dashboard
 - Use `Traffic Project dashboard.pbix` to view interactive report
 - Or connect manually via: `Home → Get Data → MySQL`
 
 ---
 
-## 📂 Repository Structure
+##  Repository Structure
 
 ```
-📦 Adword-Data-Analysis
- ┣ 📄 Raw_data.xlsx
- ┣ 📄 website_traffic_data.csv
- ┣ 📄 keyword.csv
- ┣ 📄 keyword_difficulty.csv
- ┣ 📄 search_volume.csv
- ┣ 📄 Traffic Data SQL script.sql
- ┣ 📄 Traffic Project dashboard.pbix
- ┣ 📁 images
- ┃ ┣ 📷 raw_excel_sample.png
- ┃ ┣ 📷 excel_lookup_table_1.png
- ┃ ┣ 📷 excel_lookup_tables_2png
- ┃ ┣ 📷 excel_lookup_table_3.png
- ┃ ┣ 📷 main_table.png
- ┃ ┣ 📷 mysql_schema_editor.png
- ┃ ┣ 📷 EER_Diagram.png
- ┃ ┣ 📷 power_bi_dashboard.png
- ┃ ┗ 📷 powerbi_data_model.png
- ┣ 📄 LICENSE
- ┗ 📄 README.md
+ Adword-Data-Analysis
+ ┣  Raw_data.xlsx
+ ┣  website_traffic_data.csv
+ ┣  keyword.csv
+ ┣  keyword_difficulty.csv
+ ┣  search_volume.csv
+ ┣  Traffic Data SQL script.sql
+ ┣  Traffic Project dashboard.pbix
+ ┣  images
+ ┃ ┣  raw_excel_sample.png
+ ┃ ┣  excel_lookup_table_1.png
+ ┃ ┣  excel_lookup_tables_2png
+ ┃ ┣  excel_lookup_table_3.png
+ ┃ ┣  main_table.png
+ ┃ ┣  mysql_schema_editor.png
+ ┃ ┣  EER_Diagram.png
+ ┃ ┣  power_bi_dashboard.png
+ ┃ ┗  powerbi_data_model.png
+ ┗  README.md
 ```
 
 ---
 
-## 📝 License
 
-This project is licensed under the **MIT License** — you are free to use, modify, and share with attribution.
-
----
-
-## 📬 About Me
-
-I'm **Aditya Rajput**, a data analyst passionate about storytelling with data, unsupervised learning, and real-world analytics.
-
-- [LinkedIn](https://www.linkedin.com/in/adityakumarda/)  
-- [GitHub](https://github.com/AdityakumarDA)  
-- [Tableau Public](https://public.tableau.com/app/profile/adityakumarda)
 
 If you liked this project, please ⭐ the repo!
 
