@@ -353,10 +353,3 @@ git clone https://github.com/NACHAMMAI-SN/adword-data-analysis.git
 ---
 
 
-
-If you liked this project, please ⭐ the repo!
-
----
-
-> 📌 _If you're a recruiter: This demonstrates strong knowledge in data pipelines, transformation, relational modeling, and BI reporting._  
-> 📌 _If you're a student: Feel free to use this structure to learn data integration and dashboarding step by step._
